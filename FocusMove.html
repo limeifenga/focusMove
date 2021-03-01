@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>推荐位焦点移动</title>
+  <style>
+
+    * {margin: 0;padding: 0;}
+    ul {      
+      width: 400px;
+      height: 400px;
+      list-style-type:none;
+      border: 1px solid darkgoldenrod;
+      /* overflow: hidden; */    
+      position: relative;
+      z-index: 0;
+    }
+    li {
+      width: 100px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+      border: 1px solid darkcyan;
+      /* float: left;
+      margin: 25px;       */
+      position: absolute;
+      z-index: 2;
+      background: darkorange;
+    }
+    li.itemFocus {
+      background: red;
+    }
+  </style>
+</head>
+<body>
+    <p>实现功能点：</br>
+      一、一个模块就是一个区域，实现区域间焦点移动，和区域内焦点的移动</br>
+      二、每个推荐位可配置上下左右移动</br>
+      三、每个推荐位监控确认键或回车键并回调</br></br>
+      四、焦点移动到后，进行样式绑定</br>
+      五、页面回退键或退格键回调
+    </p>  
+
+    <ul>      
+      <li id="area0_0" style="left:25px;top:25px">0</li>
+      <li id="area0_1" style="left:150px;top:25px">1</li>
+      <li id="area0_2" style="left:275px;top:25px">2</li>
+      <li id="area0_3" style="left:25px;top:200px">3</li>
+      <li id="area0_4" style="left:150px;top:200px">4</li> 
+    </ul>
+
+    <ul>      
+      <li id="area1_0" style="left:25px;top:25px">0</li>
+      <li id="area1_1" style="left:150px;top:25px">1</li>
+      <li id="area1_2" style="left:275px;top:25px">2</li>
+      <li id="area1_3" style="left:25px;top:200px">3</li>
+      <li id="area1_4" style="left:150px;top:200px">4</li> 
+    </ul>
+</body>
+<script  src="./epg.js"></script>
+<script>
+
+
+var area0 = new area({
+  areaLength: 5,
+  area: 'area0_',
+  focusClass: 'itemFocus',
+  focusConfig: {
+    top: "3>0.0,4>0.1",  // 格式：当前focusIndex > 目标区域.目标focusIndex ; 可以不配置，多个配置','分格无序排列
+    right: "4>1.0",
+    bottom: "0>0.3,1>0.4,2>1.2,3>1.0,4>1.1",
+    left: "",
+  },
+  callBack: function (params) {
+    alert(`下标:${params}`)
+  }
+});
+
+var area1 = new area({
+  areaLength: 5,
+  area: 'area1_',
+  focusClass: 'itemFocus',
+  focusConfig: {
+    top: "0>0.3,1>0.4,2>0.2,3>1.0,4>1.1",
+    right: "4>0.0",
+    bottom: "0>1.3,1>1.4",
+    left: "0>0.4",
+  },
+  callBack: function (params) {
+    alert(`下标:${params}`)
+  }
+});
+
+epgPublic({
+  areaArray: [area0, area1],
+  activeAreaIndex: 0,
+  activeFocusIndex: 0, 
+})
+</script>
+</html>
